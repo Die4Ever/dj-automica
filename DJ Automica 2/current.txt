@@ -1,0 +1,88 @@
+<meta charset="UTF-8" />
+<meta http-equiv="refresh" content="60" />
+<script>
+function OnLoad()
+{
+	setInterval("Refresh()", 1000);
+	Refresh();
+	return true;
+}
+
+function Update(txt)
+{
+	//alert(txt);
+	var info = eval( "(" + txt + ")");
+
+	var html = "DJ Automica ALPHA AS FUCK (alpha testing) <br/>";
+	var Name = parseInt(info.SetName, 10);
+	var date = new Date(Name*1000);
+	var enddate = new Date(parseInt(info.SetLength, 10)*1000);
+	html += "Set started at = " + date.toLocaleTimeString() + ", ends at " + enddate.toLocaleTimeString() + "<br/>";
+	html += "&nbsp;&nbsp;&nbsp;&nbsp;";
+	html += "tempo = " + info.tempo + ", currtracks = " + info.currtracks + ", MindFuck chance = " + info.MindFuckChance + "%<br/>";
+	html += "<br/>Current Songs - <br/>";
+	for(var i=0;i<info.songs.length;i++)
+	{
+		try
+		{
+			var song = info.songs[i];
+			html += "&nbsp;&nbsp;&nbsp;&nbsp;";
+			html += song.name;
+			html += "<br/>";
+
+			/*html += "&nbsp;&nbsp;&nbsp;&nbsp;";
+			html += "&nbsp;&nbsp;&nbsp;&nbsp;";
+			html += "^ - tempo = " + song.tempo;
+			var pos = Math.floor(song.pos / 44100 /2);
+			var length = Math.floor(song.length / 44100 /2);
+			html += " - time = " + pos + "/" + length;;
+
+			html += " - volume = " + Math.floor(song.vol*100) + "%";
+			html += " - beats per measure = " + song.beatspermeasure;
+
+			if( typeof(song.songb) != undefined && song.songb != undefined)
+			{
+				html += "<br/>";
+				html += "&nbsp;&nbsp;&nbsp;&nbsp;";
+				html += "&nbsp;&nbsp;&nbsp;&nbsp;";
+				html += "Song B: " + song.songb;
+			}
+			html += "<br/><br/>";*/
+		}
+		catch(err) {
+			//alert(err.message);
+			html=err.message;
+			document.getElementById("thediv").innerHTML = html;
+		}
+	}
+	document.getElementById("thediv").innerHTML = html;
+	return true;
+}
+
+function Refresh()
+{
+	var ajaxRequest = new XMLHttpRequest();
+	ajaxRequest.onreadystatechange = function ()
+	{
+		//alert(ajaxRequest.statusText);
+		if (ajaxRequest.readyState != 4)
+			return;
+		//try {
+			Update(ajaxRequest.responseText);
+		//}
+		//catch(err) {
+			//alert(err.message);
+		//}
+	}
+	ajaxRequest.open("GET", "/current.txt", true);
+	ajaxRequest.send(null);
+
+	return true;
+}
+</script>
+
+<html>
+<head></head><body onload="OnLoad()">
+<div id="thediv">CRAP GOES HERE!</div>
+</body>
+</html>

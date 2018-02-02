@@ -1,0 +1,39 @@
+#maxspeed=1.05
+#minspeed=0.95
+maxspeed=2.5
+minspeed=0.1
+mindfuckchance=0.0
+numtracks=0.9
+cutofflength=190
+starttime=20
+setlength=1700
+#this is a comment
+vlcdir=C:\Program Files\VideoLAN\VLC\vlc.exe
+mpg123path=mpg123.exe
+dbpath=E:\DJ Automica 3 DB\
+
+#musicpath=E:\Dropbox\musix\artists\Beatwife\
+#musicpath=E:\Dropbox\musix\artists\Equinox\
+musicpath=E:\Dropbox\musix\artists\
+#musicpath=E:\Dropbox\musix\artists\autechre\[1999] Autechre - Peel Session (V0)\
+
+ignore=live
+ignore=algorhythm
+ignore=incomplete
+ignore=50 cent
+ignore=ac-dc
+ignore=ac/dc
+ignore=ac dc
+ignore=ac~dc
+ignore=ray carro
+ignore=mylittlesister
+ignore=bill hicks
+ignore=dave chappelle
+ignore=mitch hedberg
+ignore=george carlin
+ignore=lewis black
+ignore=funny bone
+ignore=for what it's worth
+ignore=guitar hero
+ignore=robert schimmel
+ignore=sage francis

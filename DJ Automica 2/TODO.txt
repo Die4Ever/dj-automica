@@ -1,0 +1,136 @@
+I think if I use the same algorithm to pair up songs, but then multiply them against eachother to find the right offset and slightly tweak the playback speed of the song that's coming in to match, I think it'll be way better, I'm gonna have to pick that project up again soon
+-maybe even use an FFT to help find the tempo? multiply the list of strengths for each frequency?
+-instead of saving one tempo for a song, I need to save the top few likely tempos
+-I need to do way more look ahead, and finding the next song should be a separate thread
+-maybe make my own global audio buffer, so I can easily adjust it
+-each song should be fully loaded in initialization
+-figuring out the exact tweaked tempo and offset is gonna be tough
+-maybe downscale or blur the waveforms to get fast approximate analysis
+-I doubt anyone tweaks the tempo to a 1000th of a BPM
+-make the version number visible in the videos, and maybe the date or the build date
+
+
+-automatically set thread priorities
+x-salt the songs hash table, a wstring salt, songs [path+salt]
+x-modify mind fucks to be more volume based, the pattern should be doubles of volume scales
+-round the set tempo to have an integer interval?
+
+-try out some delay effects, test as vsts first
+-multiplied feedback
+-fft and resynth as sines, squares, saws
+-fft and resynth lower pitch
+-gates
+-modulated by input
+-diff rect the input
+-Fibonacci
+-ltree based
+
+-analyze length, increment dja version
+-do a very slight crossfade for mind fucks, to eliminate pops
+
+-lowpass and highpass, 1 song with lowpass and the other with highpass set at the same frequencies?
+x-change average volume to only count samples over 0 or maybe a higher floor? 100?
+x-increase BlockSize to 4096 maybe, to help debug mode
+x-in MindFuck, track moving average of volume to avoid playing silence
+x-make the track loop on the Play function until the buffer is full, making it behave like effects do, and making it easier for certain top level effects with ffts maybe
+-attempt an fft to remove all notes and play just drums
+-increase the range on finding the offset, try to find the start of a measure
+    -maybe not, the song should always start with a measure
+x-ignore comedians
+x-how accurate is my song scaling?
+	x-alleviated by increasing buffer size 16 times, still need to change it to use a persistant double, must be as accurate as possible
+x-volume differences too large, do vol = (vol + 0.5) / 2.0
+-maybe try to detect shuffle?...
+x-fade ins and fade outs, as effects of course
+
+x-75% speed should be less common
+x-make the set end faster! duh!
+x-maybe need up to 600 bpm? more? 
+x-main thread needs to save changes to the Songs hash
+x-need to trim the front of DJA file names, trim to 150 characters maybe?
+x-need to work on ToJSON function
+  x -pass to effects, current time, length, scale, effect types
+x-fix possible html and json errors
+x-make a song count for 0.8 near its end
+-need to rethink tempo changes, not sure they work
+	x-fuck it just don't do them lol
+
+x-maybe a last_played timestamp for each song? not saved in the .dja file
+	x-could also just be the timestamp of the start of the set
+
+-a song can match tempo near 0.74074 times speed and near 1.0 times speed
+	-0.74074(aka 45 rpm at 33 1/3 rpm) == (100/3)/45
+		-makes all the notes about 5 semitones lower, adjust the key appropriately...
+			x-0.75 speed is exactly 5 semitones lower, maybe use that instead of 0.74074
+
+
+-WHEN CHANGING TEMPO!
+	-only change tempo when only 1 song is playing, makes it much simpler
+	-slide the tempo towards the tempo of the song player
+	-the set's position = the song's position, this solves all issues with overflow and with synchronization
+
+x-MIXING
+x-mind fucks
+x-need to do volume leveling
+-note charts
+-better time sig detection using notes?
+
+
+x-use reason to see if bpms is 8th notes per minute in 7/8
+	x-bpm seems to always be the number of 4th notes per minute
+
+-use the tickspermeasure to help find the proper offset
+
+-split audio into 0-200 hz, 200-400, 400-800, 800-1600, 1600-3200, 3200+
+-abs every sample aka full wave rectify
+-low pass to get envelopes
+  -perhaps by fft and then half hanning window it, regular low pass sounds easier
+----simple low pass
+newsamp [x] = samp [x] + samp [x-1];
+-----better low pass-----------------
+Here is a super simple example of a low pass filter in C++ that processes the signal one sample at a time:
+
+float lopass(float input, float cutoff) {
+ lo_pass_output= outputs[0]+ (cutoff*(input-outputs[0])); 
+outputs[0]= lo_pass_output;
+return(lo_pass_output);
+}
+Here is pretty much the same thing, except it's high pass:
+
+float hipass(float input, float cutoff) {
+ hi_pass_output=input-(outputs[0] + cutoff*(input-outputs[0]));
+ outputs[0]=hi_pass_output;
+ return(hi_pass_output);
+}
+---------------------------------
+http://stackoverflow.com/questions/35530/what-are-high-pass-and-low-pass-filters
+
+-diff-rect? it means
+ newsamp[x] = samp [x] - samp[x-1];
+-half wave rectify the diff-rect
+-comb filter
+-energy = sum of samples
+-sum the energy from each frequency band
+-chose the highest tempo to insure it's reading beats or smaller and not measures
+
+-I should make it output bmp files for each analysis so I can debug
+   -use bmp.h from stratacular, maybe pack the header with the data or just do it in 2 separate writes to the file
+
+x-maybe try instead of multiplying the clip against its offset self, try using a sine wave
+	x-didn't work any better, and had to use many sine waves because of uncertain phasing of the song
+
+-get key
+x-get tempo
+x-get offset
+x-playback with tempo scaling
+	x-do this with an effect chain
+-rechop effect, cutting instead of scaling pitch
+-fft scaling, to do large changes in tempo while keeping the key
+x-mindfuck
+	x-do this with an effect chain
+-maybe some other mixing types
+	-try to use effects
+x-get beats/ticks per measure
+-measures per phrase
+-melodies
+-set key changes?

@@ -1,0 +1,59 @@
+<meta http-equiv="refresh" content="5">
+<script>
+function Refresh()
+{
+	//var txt = document.getElementById("thesource").innerHTML;
+	var txt = "$sourcedata$";
+	//alert(txt);
+	var info = eval( "(" + txt + ")");
+	//document.getElementById("thediv").innerHTML = txt;
+
+	var html = "DJ Automica ALPHA AS FUCK (alpha testing) <br/>";
+	var Name = parseInt(info.SetName, 10);
+	var date = new Date(Name*1000);
+	var enddate = new Date(parseInt(info.SetLength, 10)*1000);
+	html += "Set started at = " + date.toLocaleTimeString() + ", ends at " + enddate.toLocaleTimeString() + "<br/>";
+	html += "&nbsp;&nbsp;&nbsp;&nbsp;";
+	html += "tempo = " + info.tempo + ", currtracks = " + info.currtracks + "<br/>";
+	html += "<br/>Current Songs - <br/>";
+	for(var i=0;i<info.songs.length;i++)
+	{
+		try {
+		var song = info.songs[i];
+		html += "&nbsp;&nbsp;&nbsp;&nbsp;";
+		html += song.name;
+		html += "<br/>";
+
+		/*html += "&nbsp;&nbsp;&nbsp;&nbsp;";
+		html += "&nbsp;&nbsp;&nbsp;&nbsp;";
+		html += "^ - tempo = " + song.tempo;
+		var pos = Math.floor(song.pos / 44100 /2);
+		var length = Math.floor(song.length / 44100 /2);
+		html += " - time = " + pos + "/" + length;;
+
+		html += " - volume = " + Math.floor(song.vol*100) + "%";
+		html += " - beats per measure = " + song.beatspermeasure;
+
+		if( typeof(song.songb) != undefined && song.songb != undefined)
+		{
+			html += "<br/>";
+			html += "&nbsp;&nbsp;&nbsp;&nbsp;";
+			html += "&nbsp;&nbsp;&nbsp;&nbsp;";
+			html += "Song B: " + song.songb;
+		}
+		html += "<br/><br/>";*/
+		}
+		finally {
+		}
+	}
+	document.getElementById("thediv").innerHTML = html;
+	return true;
+}
+</script>
+
+<html>
+<head></head><body onload="Refresh()">
+<div id="thediv">CRAP GOES HERE</div>
+<div id="thesource" hidden="true">$sourcedata$</div>
+</body>
+</html>
